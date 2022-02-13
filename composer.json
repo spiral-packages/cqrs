@@ -1,40 +1,46 @@
 {
-  "name": ":vendor_slug/:package_slug",
-  "description": ":package_description",
+  "name": "spiral-packages/cqrs",
+  "description": "Lightweight message bus supporting CQRS for Spiral Framework",
   "keywords": [
-    ":vendor_name",
+    "spiral-packages",
     "spiral",
-    ":package_slug"
+    "cqrs",
+    "command-bus",
+    "query-bus"
   ],
-  "homepage": "https://github.com/:vendor_slug/:package_slug",
+  "homepage": "https://github.com/spiral-packages/cqrs",
   "license": "MIT",
   "authors": [
     {
-      "name": ":author_name",
-      "email": "author@domain.com",
+      "name": "butschster",
+      "email": "butschster@gmail.com",
       "role": "Developer"
     }
   ],
   "require": {
     "php": "^8.0",
     "spiral/boot": "^2.9",
-    "spiral/console": "^2.9"
+    "spiral/core": "^2.9",
+    "spiral/config": "^2.9",
+    "spiral/console": "^2.9",
+    "spiral/tokenizer": "^2.9",
+    "spiral/attributes": "^2.9",
+    "symfony/messenger": "^6.0"
   },
   "require-dev": {
-    "mockery/mockery": "^1.5",
-    "phpunit/phpunit": "^9.5",
+    "spiral/framework": "^2.9",
     "spiral/testing": "^1.0",
     "vimeo/psalm": "^4.9"
   },
   "autoload": {
     "psr-4": {
-      "VendorName\\Skeleton\\": "src"
+      "Spiral\\Cqrs\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "VendorName\\Skeleton\\Tests\\App\\": "tests/app",
-      "VendorName\\Skeleton\\Tests\\": "tests/src"
+      "Spiral\\Cqrs\\Tests\\App\\": "tests/app",
+      "Spiral\\Cqrs\\Tests\\": "tests/src"
     }
   },
   "scripts": {
@@ -47,7 +53,7 @@
   "extra": {
     "spiral": {
       "bootloaders": [
-        "VendorName\\Skeleton\\Bootloader\\SkeletonBootloader"
+        "Spiral\\Cqrs\\Bootloader\\CqrsBootloader"
       ]
     }
   },
