@@ -142,8 +142,6 @@ final class HandlersLocator implements HandlersLocatorInterface
     }
 
     /**
-     * @param \ReflectionMethod $method
-     * @return void
      * @throws InvalidHandlerException
      */
     private function assertHandlerMethodIsPublic(\ReflectionMethod $method): void
