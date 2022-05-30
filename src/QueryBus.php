@@ -27,9 +27,9 @@ final class QueryBus implements QueryBusInterface
             /** @var HandledStamp $stamp */
             $stamp = $envelope->last(HandledStamp::class);
 
-            return $stamp->getResult();
-        } catch (NoHandlerForMessageException) {
-            throw new QueryNotRegisteredException($query);
+            return $stamp?->getResult();
+        } catch (NoHandlerForMessageException $e) {
+            throw new QueryNotRegisteredException($query, $e);
         } catch (HandlerFailedException $e) {
             $this->throwException($e);
         }

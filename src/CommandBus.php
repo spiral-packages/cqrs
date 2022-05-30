@@ -27,7 +27,7 @@ final class CommandBus implements CommandBusInterface
             /** @var HandledStamp $stamp */
             $stamp = $envelope->last(HandledStamp::class);
 
-            return $stamp->getResult();
+            return $stamp?->getResult();
         } catch (NoHandlerForMessageException $e) {
             throw new CommandNotRegisteredException($command, $e);
         } catch (HandlerFailedException $e) {
