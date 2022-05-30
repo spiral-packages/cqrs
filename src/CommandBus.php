@@ -15,7 +15,7 @@ final class CommandBus implements CommandBusInterface
     use MessageBusExceptionTrait;
 
     public function __construct(
-        private MessageBusInterface $bus
+        private readonly MessageBusInterface $bus
     ) {
     }
 

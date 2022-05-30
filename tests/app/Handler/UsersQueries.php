@@ -10,7 +10,7 @@ use Spiral\Cqrs\Tests\App\UserRepositoryInterface;
 final class UsersQueries
 {
     public function __construct(
-        private UserRepositoryInterface $users
+        private readonly UserRepositoryInterface $users
     ) {
     }
 

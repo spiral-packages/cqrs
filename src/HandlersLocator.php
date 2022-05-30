@@ -27,9 +27,9 @@ final class HandlersLocator implements HandlersLocatorInterface
     private bool $precessed = false;
 
     public function __construct(
-        private Container $container,
-        private ClassesInterface $classes,
-        private ReaderInterface $reader,
+        private readonly Container $container,
+        private readonly ClassesInterface $classes,
+        private readonly ReaderInterface $reader,
     ) {
     }
 

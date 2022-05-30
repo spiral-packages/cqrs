@@ -7,6 +7,6 @@ namespace Spiral\Cqrs\Attribute;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-class CommandHandler
+final class CommandHandler
 {
 }

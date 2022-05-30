@@ -9,7 +9,7 @@ use Spiral\Cqrs\QueryInterface;
 final class FindUserById implements QueryInterface
 {
     public function __construct(
-        public int $id
+        public readonly int $id
     ) {
     }
 }

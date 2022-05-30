@@ -9,8 +9,8 @@ use Spiral\Cqrs\CommandInterface;
 class UpdateUser implements CommandInterface
 {
     public function __construct(
-        public string $username,
-        public string $password
+        public readonly string $username,
+        public readonly string $password
     ) {
     }
 }

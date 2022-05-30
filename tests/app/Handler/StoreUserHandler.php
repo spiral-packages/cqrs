@@ -11,7 +11,7 @@ use Spiral\Cqrs\Tests\App\EntityManagerInterface;
 final class StoreUserHandler
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager
     ) {
 
     }

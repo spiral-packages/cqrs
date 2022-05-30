@@ -9,9 +9,9 @@ use Spiral\Cqrs\CommandInterface;
 final class StoreUser implements CommandInterface
 {
     public function __construct(
-        public string $uuid,
-        public string $username,
-        public string $password
+        public readonly string $uuid,
+        public readonly string $username,
+        public readonly string $password
     ) {
     }
 }

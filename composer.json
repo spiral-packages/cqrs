@@ -18,18 +18,18 @@
     }
   ],
   "require": {
-    "php": "^8.0",
-    "spiral/boot": "^2.9",
-    "spiral/core": "^2.9",
-    "spiral/config": "^2.9",
-    "spiral/console": "^2.9",
-    "spiral/tokenizer": "^2.9",
-    "spiral/attributes": "^2.9",
+    "php": "^8.1",
+    "spiral/boot": "^3.0",
+    "spiral/core": "^3.0",
+    "spiral/config": "^3.0",
+    "spiral/console": "^3.0",
+    "spiral/tokenizer": "^3.0",
+    "spiral/attributes": "^3.0",
     "symfony/messenger": "^6.0"
   },
   "require-dev": {
-    "spiral/framework": "^2.9",
-    "spiral/testing": "^1.0",
+    "spiral/framework": "^3.0",
+    "spiral/testing": "^2.0",
     "vimeo/psalm": "^4.9"
   },
   "autoload": {
@@ -48,7 +48,10 @@
     "psalm": "vendor/bin/psalm --config=psalm.xml ./src"
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "spiral/composer-publish-plugin": true
+    }
   },
   "extra": {
     "spiral": {

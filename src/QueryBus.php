@@ -15,7 +15,7 @@ final class QueryBus implements QueryBusInterface
     use MessageBusExceptionTrait;
 
     public function __construct(
-        private MessageBusInterface $bus
+        private readonly MessageBusInterface $bus
     ) {
     }
 
