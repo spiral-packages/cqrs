@@ -8,7 +8,7 @@ use Symfony\Component\Messenger\Envelope;
 
 class HandlerTypeIsNotSupported extends CqrsException
 {
-    public function __construct(Envelope $envelope, ?Throwable $previous = null)
+    public function __construct(Envelope $envelope, ?\Throwable $previous = null)
     {
         parent::__construct(
             \sprintf(

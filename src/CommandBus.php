@@ -19,6 +19,12 @@ final class CommandBus implements CommandBusInterface
     ) {
     }
 
+    /**
+     * @throws CommandNotRegisteredException
+     * @throws \Throwable
+     *
+     * @psalm-suppress InvalidReturnType
+     */
     public function dispatch(CommandInterface $command): mixed
     {
         try {

@@ -19,6 +19,12 @@ final class QueryBus implements QueryBusInterface
     ) {
     }
 
+    /**
+     * @throws QueryNotRegisteredException
+     * @throws \Throwable
+     *
+     * @psalm-suppress InvalidReturnType
+     */
     public function ask(QueryInterface $query): mixed
     {
         try {

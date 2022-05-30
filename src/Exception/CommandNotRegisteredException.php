@@ -12,7 +12,7 @@ class CommandNotRegisteredException extends CqrsException
     {
         parent::__construct(
             sprintf("The command <%s> hasn't a command handler associated", get_class($command)),
-            $previous->getCode(),
+            (int)$previous->getCode(),
             $previous
         );
     }

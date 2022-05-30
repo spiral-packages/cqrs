@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiral\Cqrs\Tests\App\Handler;
 
 use Spiral\Cqrs\Tests\App\Command\StoreUser;
+use Spiral\Cqrs\Tests\App\Command\UpdateUser;
 use Spiral\Cqrs\Tests\App\EntityManagerInterface;
 
 final class StoreUserHandler
@@ -16,7 +17,7 @@ final class StoreUserHandler
     }
 
     #[\Spiral\Cqrs\Attribute\CommandHandler]
-    public function __invoke(StoreUser $command)
+    public function __invoke(StoreUser|UpdateUser $command)
     {
         $this->entityManager->store([
             'uuid' => $command->uuid,

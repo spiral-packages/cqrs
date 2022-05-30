@@ -12,7 +12,7 @@ class QueryNotRegisteredException extends CqrsException
     {
         parent::__construct(
             sprintf("The query <%s> hasn't a query handler associated", get_class($query)),
-            $previous->getCode(),
+            (int)$previous->getCode(),
             $previous
         );
     }
