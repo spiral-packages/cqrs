@@ -2,8 +2,8 @@
 
 [![PHP](https://img.shields.io/packagist/php-v/spiral-packages/cqrs.svg?style=flat-square)](https://packagist.org/packages/spiral-packages/cqrs)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spiral-packages/cqrs.svg?style=flat-square)](https://packagist.org/packages/spiral-packages/cqrs)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spiral-packages/cqrs/run-tests?label=tests&style=flat-square)](https://github.com/spiral-packages/cqrs/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/spiral-packages/cqrs.svg?style=flat-square)](https://packagist.org/packages/spiral-packages/cqrs)
+[![run-tests](https://github.com/spiral-packages/cqrs/actions/workflows/run-tests.yml/badge.svg)](https://github.com/spiral-packages/cqrs/actions/workflows/run-tests.yml)
 
 It's a lightweight messaging facade. It allows you to define the API of your model with the help of messages.
 
@@ -68,9 +68,9 @@ class StoreUserHandler
     public function __construct(
         private EntityManagerInterface $entityManager
     ) {
-    
+
     }
-    
+
     #[\Spiral\Cqrs\Attribute\CommandHandler]
     public function __invoke(StoreUser $command)
     {
@@ -93,17 +93,17 @@ class StoreUserHandler
 ```php
 use Ramsey\Uuid\Uuid;
 
-class UserController 
+class UserController
 {
     public function store(UserStoreRequest $request, \Spiral\Cqrs\CommandBusInterface $bus)
     {
         $bus->dispatch(new StoreUser(
-           $uuid = Uuid::uuid4(), 
-           $request->getUsername(), 
-           $request->getPassword(), 
+           $uuid = Uuid::uuid4(),
+           $request->getUsername(),
+           $request->getPassword(),
            new \DateTimeImmutable()
         ));
-        
+
         return $uuid;
     }
 }
@@ -142,7 +142,7 @@ class UsersQueries
         private UserRepository $users
     ) {
     }
-    
+
     #[\Spiral\Cqrs\Attribute\QueryHandler]
     public function findAll(FindAllUsers $query): UserCollection
     {
@@ -150,12 +150,12 @@ class UsersQueries
         if ($query->roles !== []) {
             $scope['roles'] = $query->roles
         }
-        
+
         return new UserCollection(
             $this->users->findAll($scope)
         );
     }
-    
+
     #[\Spiral\Cqrs\Attribute\QueryHandler]
     public function findById(FindUserById $query): UserResource
     {
@@ -171,7 +171,7 @@ class UsersQueries
 ```php
 use Ramsey\Uuid\Uuid;
 
-class UserController 
+class UserController
 {
     public function index(UserFilters $filters, \Spiral\Cqrs\QueryBusInterface $bus)
     {
@@ -179,7 +179,7 @@ class UserController
             new FindAllUsers($filters->roles())
         )->toArray();
     }
-    
+
     public function show(string $uuid, \Spiral\Cqrs\QueryBusInterface $bus)
     {
         return $bus->ack(
