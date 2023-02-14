@@ -4,41 +4,25 @@ declare(strict_types=1);
 
 namespace Spiral\Cqrs;
 
-use Generator;
-use ReflectionMethod;
-use ReflectionNamedType;
-use ReflectionType;
-use Spiral\Attributes\ReaderInterface;
 use Spiral\Core\Container;
-use Spiral\Cqrs\Attribute\CommandHandler;
-use Spiral\Cqrs\Attribute\QueryHandler;
 use Spiral\Cqrs\Exception\HandlerTypeIsNotSupported;
-use Spiral\Cqrs\Exception\InvalidHandlerException;
-use Spiral\Tokenizer\ClassesInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 use Symfony\Component\Messenger\Handler\HandlersLocatorInterface;
 use Symfony\Component\Messenger\Stamp\ReceivedStamp;
 
-final class HandlersLocator implements HandlersLocatorInterface
+final class HandlersLocator implements HandlersLocatorInterface, HandlersRegistryInterface
 {
     private array $commandHandlers = [];
     private array $queryHandlers = [];
-    private bool $precessed = false;
 
     public function __construct(
         private readonly Container $container,
-        private readonly ClassesInterface $classes,
-        private readonly ReaderInterface $reader,
     ) {
     }
 
     public function getHandlers(Envelope $envelope): iterable
     {
-        if (! $this->precessed) {
-            $this->lookForHandlers();
-        }
-
         $seen = [];
 
         $handlers = match (true) {
@@ -56,7 +40,7 @@ final class HandlersLocator implements HandlersLocatorInterface
                 }
 
                 $name = $handlerDescriptor->getName();
-                if (in_array($name, $seen)) {
+                if (\in_array($name, $seen)) {
                     continue;
                 }
 
@@ -70,11 +54,11 @@ final class HandlersLocator implements HandlersLocatorInterface
     /** @internal */
     public static function listTypes(Envelope $envelope): array
     {
-        $class = get_class($envelope->getMessage());
+        $class = \get_class($envelope->getMessage());
 
         return [$class => $class]
-            + class_parents($class)
-            + class_implements($class)
+            + \class_parents($class)
+            + \class_implements($class)
             + ['*' => '*'];
     }
 
@@ -103,79 +87,13 @@ final class HandlersLocator implements HandlersLocatorInterface
         ]);
     }
 
-    private function lookForHandlers()
+    public function registerCommandHandler(string $command, array $handler): void
     {
-        foreach ($this->classes->getClasses() as $class) {
-            foreach ($class->getMethods() as $method) {
-                if ($this->reader->firstFunctionMetadata($method, CommandHandler::class)) {
-                    $this->processCommandHandler($method);
-                }
-
-                if ($this->reader->firstFunctionMetadata($method, QueryHandler::class)) {
-                    $this->processQueryHandler($method);
-                }
-            }
-        }
+        $this->commandHandlers[$command][] = $handler;
     }
 
-    private function processCommandHandler(ReflectionMethod $method): void
+    public function registerQueryHandler(string $query, array $handler): void
     {
-        $this->assertHandlerMethodIsPublic($method);
-
-        foreach ($this->getMethodParameters($method) as $parameter) {
-            if (is_a($parameter->getName(), CommandInterface::class, true)) {
-                $this->commandHandlers[$parameter->getName()][] = [
-                    $method->getDeclaringClass()->getName(),
-                    $method->getName(),
-                ];
-            }
-        }
-    }
-
-    private function processQueryHandler(ReflectionMethod $method)
-    {
-        $this->assertHandlerMethodIsPublic($method);
-
-        foreach ($this->getMethodParameters($method) as $parameter) {
-            if (is_a($parameter->getName(), QueryInterface::class, true)) {
-                $this->queryHandlers[$parameter->getName()][] = [
-                    $method->getDeclaringClass()->getName(),
-                    $method->getName(),
-                ];
-            }
-        }
-    }
-
-    /**
-     * @throws InvalidHandlerException
-     */
-    private function assertHandlerMethodIsPublic(ReflectionMethod $method): void
-    {
-        if (! $method->isPublic()) {
-            throw new InvalidHandlerException(
-                \sprintf(
-                    'Handler method %s:%s should be public.',
-                    $method->getDeclaringClass()->getName(),
-                    $method->getName()
-                )
-            );
-        }
-    }
-
-    /**
-     * @param ReflectionMethod $method
-     * @return Generator<int, ReflectionNamedType|ReflectionType|null>
-     */
-    private function getMethodParameters(ReflectionMethod $method): Generator
-    {
-        foreach ($method->getParameters() as $parameter) {
-            if ($parameter->getType() instanceof \ReflectionUnionType) {
-                foreach ($parameter->getType()->getTypes() as $type) {
-                    yield $type;
-                }
-            } else {
-                yield $parameter->getType();
-            }
-        }
+        $this->queryHandlers[$query][] = $handler;
     }
 }
