@@ -10,14 +10,14 @@ use Spiral\Cqrs\Attribute\CommandHandler;
 use Spiral\Cqrs\Attribute\QueryHandler;
 use Spiral\Cqrs\Exception\InvalidHandlerException;
 use Spiral\Tokenizer\TokenizationListenerInterface;
-use Spiral\Tokenizer\Attribute\ListenForClasses;
+use Spiral\Tokenizer\Attribute\TargetAttribute;
 
 /**
  * @psalm-suppress InvalidAttribute
  * @psalm-suppress UndefinedAttributeClass
  */
-#[ListenForClasses(target: CommandHandler::class)]
-#[ListenForClasses(target: QueryHandler::class)]
+#[TargetAttribute(class: CommandHandler::class)]
+#[TargetAttribute(class: QueryHandler::class)]
 final class CqrsAttributesListener implements TokenizationListenerInterface
 {
     private array $commandHandlers = [];
