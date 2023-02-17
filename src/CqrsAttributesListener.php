@@ -16,8 +16,8 @@ use Spiral\Tokenizer\Attribute\TargetAttribute;
  * @psalm-suppress InvalidAttribute
  * @psalm-suppress UndefinedAttributeClass
  */
-#[TargetAttribute(class: CommandHandler::class)]
-#[TargetAttribute(class: QueryHandler::class)]
+#[TargetAttribute(CommandHandler::class)]
+#[TargetAttribute(QueryHandler::class)]
 final class CqrsAttributesListener implements TokenizationListenerInterface
 {
     private array $commandHandlers = [];
