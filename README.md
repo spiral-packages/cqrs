@@ -175,14 +175,14 @@ class UserController
 {
     public function index(UserFilters $filters, \Spiral\Cqrs\QueryBusInterface $bus)
     {
-        return $bus->ack(
+        return $bus->ask(
             new FindAllUsers($filters->roles())
         )->toArray();
     }
 
     public function show(string $uuid, \Spiral\Cqrs\QueryBusInterface $bus)
     {
-        return $bus->ack(
+        return $bus->ask(
             new FindUserById(Uuid::fromString($uuid))
         )->toArray();
     }
